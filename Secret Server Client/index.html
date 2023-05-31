@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="myForm" onsubmit="submitForm(event)">
+        <input type="text" id="secret" name="secret">
+        <input type="number" id="expireAfterViews" name="expireAfterViews">
+        <input type="number" id="expireAfter" name="expireAfter">
+        <input type="submit" value="Generate URL">
+    </form>
+    
+    <script>
+function submitForm(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var xhr = new XMLHttpRequest();
+    var url = "http://localhost/Code2/Secret%20Server/secret/";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Request completed successfully
+            var response = xhr.responseText;
+            // Process the response here
+            console.log(response);
+        }
+    };
+
+    var secretInput = document.getElementById("secret").value;
+    var expireAfterViewsInput = document.getElementById("expireAfterViews").value;
+    var expireAfterInput = document.getElementById("expireAfter").value;
+
+    var params = "secret=" + encodeURIComponent(secretInput) +
+        "&expireAfterViews=" + encodeURIComponent(expireAfterViewsInput) +
+        "&expireAfter=" + encodeURIComponent(expireAfterInput);
+
+    xhr.send(params);
+}
+
+    </script>
+</body>
+
+</html>
